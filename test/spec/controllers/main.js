@@ -1,21 +1,24 @@
 describe('Controller MainCtrl', function() {
-	beforeEach(module('uiChallengeAppApp'));
+	beforeEach(module('uiChallengeApp'));
 
-	var $scope = null;
-	var $httpBackend = null;
-	var location = null;
+	var MainCrl;
+	var scope;
+	var $httpBackend;
+	var location;
 
 	// inject root
 	beforeEach(inject(function($controller, $rootScope) {
-		$scope = $rootScope.$new();
+		scope = $rootScope.$new();
 
-		$controller('CommentController', {$scope: $scope});
+		MainCtrl = $controller('MainCtrl', {
+	      $scope: scope
+	    });
 	}));
 
 	// inject http, service
-	beforeEach(inject(function(_$httpBackend_, _location_) {
-		$httpBackend = _$httpBackend_;
-		location = _location_;
+	beforeEach(inject(function($injector) {
+		$httpBackend = $injector.get('$httpBackend');
+		location = $injector.get('location');
 	}));
 
 	afterEach(function() {
@@ -25,15 +28,54 @@ describe('Controller MainCtrl', function() {
 
 	describe('function getMyLocation', function() {
 		var myLocation = {
-			"as":"AS28573 CLARO S.A.",
+			as:"AS28573 CLARO S.A.",
+			city:"São Paulo",
+			country:"Brazil",
+			countryCode:"BR",
+			isp:"NET Virtua",
+			lat:-23.5464,
+			lon:-46.6289,
+			org:"NET Virtua",
+			query:"201.6.133.18",
+			region:"SP",
+			regionName:"Sao Paulo",
+			status:"success",
+			timezone:"America/Sao_Paulo",
+			zip:""
+		};
+
+		beforeEach(function() {
+			$httpBackend.expectGET('http://ip-api.com/json/').respond(myLocation);
+
+			MainCtrl.getMyLocation();
+
+			$httpBackend.flush();
+		});
+
+		it('Should return a object with data of my location', function() {
+			expect(scope.personL).toEqual(myLocation);
+		});
+	});
+
+	describe('function resetMyLocation', function() {
+		it('should reset the location to undefined', function() {
+			MainCtrl.resetMyLocation();
+
+			expect(scope.personL).toBe('');
+		});
+	});
+
+	describe('function getHostLocation', function() {
+		var hostLocation = {
+			"as":"AS7162 Universo Online S.A.",
 			"city":"São Paulo",
 			"country":"Brazil",
 			"countryCode":"BR",
-			"isp":"NET Virtua",
-			"lat":-23.5464,
-			"lon":-46.6289,
-			"org":"NET Virtua",
-			"query":"201.6.133.18",
+			"isp":"Universo Online S.A.",
+			"lat":-23.5701,
+			"lon":-46.6915,
+			"org":"Universo Online S.A.",
+			"query":"200.147.67.142",
 			"region":"SP",
 			"regionName":"Sao Paulo",
 			"status":"success",
@@ -41,24 +83,24 @@ describe('Controller MainCtrl', function() {
 			"zip":""
 		};
 
-		it('Should return a object with data of my location', function() {
-			$httpBackend.expectGET('http://ip-api.com/json/').respond(myLocation);
+		it('Should return a object with data of uol location', function() {
+			$httpBackend.expectGET('http://ip-api.com/json/www.uol.com.br').respond(hostLocation);
 
-			$scope.getMyLocation();
+			scope.website = "www.uol.com.br";
+
+			MainCtrl.getHostLocation();
 
 			$httpBackend.flush();
 
-			expect($scope.personL).toBe(myLocation);
+			expect(scope.hostL).toEqual(hostLocation);
 		});
-	});
 
-	describe('function resetMyLocation', function() {
-		$scope.resetMyLocation();
+		it('Should return undefined', function() {
+			scope.website = "";
 
-		expect($scope.personL).toBe(undefined);
-	});
+			MainCtrl.getHostLocation();
 
-	describe('function getHostLocation', function() {
-
+			expect(scope.hostL).toBe(undefined);
+		});
 	});
 });

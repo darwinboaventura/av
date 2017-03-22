@@ -25,6 +25,8 @@ angular.module('uiChallengeApp')
 					$scope.hostL = response;
 				});
 			}
+
+			console.log($scope.hostL);
 		};
 
 		$scope.websitePattern = (function() {
