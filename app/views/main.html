@@ -1,0 +1,136 @@
+<div class="jumbotron">
+	<div class="container-flow">
+		<div class="row">
+			<table class="col-sm-12 table" data-isp="{{personL.isp}}">
+				<tbody>
+					<tr>
+						<td class="field_name">
+							<strong>IP</strong>
+						</td>
+
+						<td class="location_value">{{personL.query}}</td>
+
+						<td>
+							<button class="help" ng-if="personL.query">?</button>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="field_name">
+							<strong>Country</strong>
+						</td>
+
+						<td class="location_value">{{personL.country}}</td>
+
+						<td>
+							<button class="help" ng-if="personL.country">?</button>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="field_name">
+							<strong>Region</strong>
+						</td>
+
+						<td class="location_value">{{personL.region}}</td>
+
+						<td>
+							<button class="help" ng-if="personL.region">?</button>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="field_name">
+							<strong>City</strong>
+						</td>
+
+						<td class="location_value">{{personL.city}}</td>
+
+						<td>
+							<button class="help" ng-if="personL.city">?</button>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="field_name">
+							<strong>Time Zone</strong>
+						</td>
+
+						<td class="location_value">{{personL.timezone}}</td>
+
+						<td>
+							<button class="help" ng-if="personL.timezone">?</button>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="field_name">
+							<strong>Latitude</strong>
+						</td>
+
+						<td class="location_value">{{personL.lat}}</td>
+
+						<td>
+							<button class="help" ng-if="personL.lat">?</button>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="field_name">
+							<strong>Longitude</strong>
+						</td>
+
+						<td class="location_value">{{personL.lon}}</td>
+
+						<td>
+							<button class="help" ng-if="personL.lon">?</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="col-sm-12 bottom-box">
+				<a ng-click="main.getMyLocation()" class="btn btn-success" role="button">My Location</a>
+				<a ng-click="main.resetMyLocation()" class="btn btn-primary" role="button">Reset Location</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="jumbotron">
+	<div class="container-flow">
+		<div class="row">
+			<div class="col-md-8 col-sm-12">
+				<div class="google-maps" ng-if="personL || hostL.status == 'success'">
+					<!--
+					<iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d14618.519889301371!2d-46.704345!3d-23.65341915!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbr!4v1472179701124" width="100%" height="348" frameborder="0" style="border:0" allowfullscreen></iframe>
+					-->
+
+					<gm-map options="{center: [maps.center.lat, maps.center.lon], zoom: maps.zoom, mapTypeId: google.maps.MapTypeId.ROADMAP}">
+						<gm-marker ng-if="personL"  options="{position:  [personL.lat, personL.lon]}">
+							<gm-infowindow ng-if="personL" options="{content: 'My Location!'}"></gm-infowindow>
+						</gm-marker>
+
+						<gm-marker ng-if="hostL.status == 'success'" options="{position:  [hostL.lat, hostL.lon]}">
+							<gm-infowindow ng-if="hostL.status == 'success'" options="{content: 'Host Location!'}"></gm-infowindow>
+						</gm-marker>
+					</gm-map>
+				</div>
+			</div>
+
+			<form class="col-md-4 col-sm-12 bottom-box-only-sm" name="locateHost" ng-submit="main.getHostLocation()">
+				<h4 class="text-center">Physical Location of Websites</h4>
+
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Website" name="website" ng-model="website" required="true" ng-required="require" ng-pattern="websitePattern">
+
+					<span ng-show="locateHost.website.$error.pattern" class="alert-error">Please, use domains starting only with "www." or with the host name.</span>
+
+					<span ng-show="hostL.status == 'fail' && !locateHost.website.$error.pattern" class="alert-error">{{hostL.status}}: {{hostL.message}}, Query: {{hostL.query}}</span>
+				</div>
+
+				<button type="submit" class="btn btn-success center-block">Locate</button>
+			</form>
+		</div>
+	</div>
+</div>
