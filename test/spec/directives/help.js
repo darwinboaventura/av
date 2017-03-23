@@ -1,20 +1,20 @@
-// 'use strict';
+'use strict';
 
-// describe('Directive: help', function () {
+describe('Directive: help', function () {
+	// load the directive's module
+	beforeEach(module('uiChallengeApp'));
 
-//   // load the directive's module
-//   beforeEach(module('uiChallengeAppApp'));
+	var element, scope;
 
-//   var element,
-//     scope;
+	beforeEach(inject(function ($rootScope) {
+		scope = $rootScope.$new();
+	}));
 
-//   beforeEach(inject(function ($rootScope) {
-//     scope = $rootScope.$new();
-//   }));
+	it('should have the value of text as ?', inject(function ($compile) {
+		element = '<button class="help">?</button>';
 
-//   it('should make hidden element visible', inject(function ($compile) {
-//     element = angular.element('<help></help>');
-//     element = $compile(element)(scope);
-//     expect(element.text()).toBe('this is the help directive');
-//   }));
-// });
+		element = $compile(element)(scope);
+
+		expect(element.text()).toBe('?');
+	}));
+});

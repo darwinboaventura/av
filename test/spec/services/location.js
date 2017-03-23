@@ -1,18 +1,18 @@
-// 'use strict';
+'use strict';
 
-// describe('Service: location', function () {
+describe('Service: location', function () {
+	// load the service's module
+	beforeEach(module('uiChallengeApp'));
 
-//   // load the service's module
-//   beforeEach(module('uiChallengeAppApp'));
+	// instantiate service
+	var location;
 
-//   // instantiate service
-//   var location;
-//   beforeEach(inject(function (_location_) {
-//     location = _location_;
-//   }));
+	beforeEach(inject(function (_location_) {
+		location = _location_;
+	}));
 
-//   it('should do something', function () {
-//     expect(!!location).toBe(true);
-//   });
+	it('should do something', function () {
+		expect(!!location).toBe(true);
+	});
 
-// });
+});

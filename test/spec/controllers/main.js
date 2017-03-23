@@ -44,20 +44,26 @@ describe('Controller MainCtrl', function() {
 			zip:""
 		};
 
-		beforeEach(function() {
+		it('should be defined', function() {
+			expect(MainCtrl.getMyLocation).toBeDefined();
+		});
+
+		it('Should return a object with data of my location', function() {
 			$httpBackend.expectGET('http://ip-api.com/json/').respond(myLocation);
 
 			MainCtrl.getMyLocation();
 
 			$httpBackend.flush();
-		});
 
-		it('Should return a object with data of my location', function() {
 			expect(scope.personL).toEqual(myLocation);
 		});
 	});
 
 	describe('function resetMyLocation', function() {
+		it('should be defined', function() {
+			expect(MainCtrl.resetMyLocation).toBeDefined();
+		});
+
 		it('should reset the location to undefined', function() {
 			MainCtrl.resetMyLocation();
 
@@ -82,6 +88,10 @@ describe('Controller MainCtrl', function() {
 			"timezone":"America/Sao_Paulo",
 			"zip":""
 		};
+
+		it('should be defined', function() {
+			expect(MainCtrl.getHostLocation).toBeDefined();
+		});
 
 		it('Should return a object with data of uol location', function() {
 			$httpBackend.expectGET('http://ip-api.com/json/www.uol.com.br').respond(hostLocation);
