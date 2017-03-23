@@ -12,7 +12,7 @@
     "angular-mocks": "^1.6.3"
   },
   "appPath": "app",
-  "moduleName": "uiChallengeAppApp",
+  "moduleName": "uiChallengeApp",
   "overrides": {
     "bootstrap": {
       "main": [

@@ -10,13 +10,13 @@ angular.module('uiChallengeApp')
 	.directive('help', function () {
 		return {
 			restrict: 'C',
-			link: function postLink(scope, element, attrs) {
+			link: function postLink(scope, element) {
 				element.click(function() {
 					var fieldName = element.parents('tr').children('.field_name').text();
 					var isp = element.parents('table').data('isp');
 					var now = new Date();
 
-					alert("This is your " + fieldName.trim() + " from ISP " + isp + " at " + now);
+					window.alert('This is your ' + fieldName.trim() + ' from ISP ' + isp + ' at ' + now);
 				});
 			}
 		};
